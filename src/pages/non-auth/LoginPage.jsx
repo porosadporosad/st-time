@@ -13,15 +13,40 @@ const LoginPage = () => {
       <h1>Login</h1>
       <p>Login page</p>
 
-      <form onSubmit={async (e) => {}}>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          try {
+            const response = await authApi.post("/login", { id, password });
+            const { accessToken, userId, nickname } = response.data;
+            localStorage.setItem("accessToken", JSON.stringify(accessToken));
+            localStorage.setItem("userId", JSON.stringify(userId));
+            localStorage.setItem("nickname", JSON.stringify(nickname));
+            alert("로그인에 성공하였습니다. 메인 페이지로 이동할게요");
+            navigate("/");
+          } catch (error) {
+            alert(error.response.data.message);
+          }
+        }}
+      >
         <div>
           <label htmlFor="id">id</label>
-          <input />
+          <input
+            value={id}
+            onChange={(e) => {
+              setId(e.target.value);
+            }}
+          />
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
-          <input />
+          <input
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         </div>
 
         <button type="submit">Login</button>

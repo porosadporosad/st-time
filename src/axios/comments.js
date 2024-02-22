@@ -1,7 +1,9 @@
 import axios from "axios";
 import { authApi } from "./auth";
 
-const commentsAxios = axios.create({});
+const commentsAxios = axios.create({
+  baseURL: "http://localhost:3001/comments",
+});
 
 commentsAxios.interceptors.request.use();
 
